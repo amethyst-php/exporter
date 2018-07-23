@@ -2,15 +2,15 @@
 
 namespace Railken\LaraOre\Tests\Exporter\Repositories;
 
+use Closure;
+use Illuminate\Support\Collection;
 use Railken\LaraOre\Contracts\RepositoryContract;
 use Railken\LaraOre\Exporter\ExporterManager;
-use Illuminate\Support\Collection;
-use Closure;
 
 class ExporterRepository implements RepositoryContract
 {
     protected $manager;
-    
+
     public function __construct()
     {
         $this->manager = new ExporterManager();
@@ -25,10 +25,10 @@ class ExporterRepository implements RepositoryContract
     {
         return $this->manager->newEntity()->getTable();
     }
-    
+
     /**
      * @param Collection $resources
-     * @param \Closure $callback
+     * @param \Closure   $callback
      */
     public function extract(Collection $resources, Closure $callback)
     {
@@ -36,7 +36,7 @@ class ExporterRepository implements RepositoryContract
             $callback($resource, ['exports' => $resource]);
         }
     }
-    
+
     /**
      * @param Collection $resources
      *

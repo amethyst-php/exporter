@@ -18,13 +18,11 @@ class ApiTest extends BaseTest
      */
     public function getBaseUrl()
     {
-        return Config::get('ore.api.router.prefix').Config::get('ore.exporter.http.router.prefix');
+        return Config::get('ore.api.router.prefix').Config::get('ore.exporter.http.admin.router.prefix');
     }
 
     /**
      * Test common requests.
-     *
-     * @return void
      */
     public function testSuccessCommon()
     {
@@ -39,7 +37,7 @@ class ApiTest extends BaseTest
         $this->assertEquals(1, $result->ok());
         $resource = $result->getResource();
 
-        $response = $this->post($this->getBaseUrl() . "/" . $resource->id . "/generate", ['data' => ['name' => $resource->name]]);
+        $response = $this->post($this->getBaseUrl().'/'.$resource->id.'/generate', ['data' => ['name' => $resource->name]]);
         $response->assertStatus(200);
     }
 }

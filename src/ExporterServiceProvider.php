@@ -2,6 +2,7 @@
 
 namespace Railken\LaraOre;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
 use Railken\LaraOre\Api\Support\Router;
@@ -41,16 +42,20 @@ class ExporterServiceProvider extends ServiceProvider
      */
     public function loadRoutes()
     {
-        Router::group(Config::get('ore.exporter.http.router'), function ($router) {
-            $controller = Config::get('ore.exporter.http.controller');
+        $config = Config::get('ore.exporter.http.admin');
 
-            $router->get('/', ['uses' => $controller.'@index']);
-            $router->post('/', ['uses' => $controller.'@create']);
-            $router->put('/{id}', ['uses' => $controller.'@update']);
-            $router->delete('/{id}', ['uses' => $controller.'@remove']);
-            $router->get('/{id}', ['uses' => $controller.'@show']);
+        if (Arr::get($config, 'enabled')) {
+            Router::group('admin', Arr::get($config, 'router'), function ($router) use ($config) {
+                $controller = Arr::get($config, 'controller');
 
-            $router->post('/{id}/generate', ['uses' => $controller.'@generate']);
-        });
+                $router->get('/', ['uses' => $controller.'@index']);
+                $router->post('/', ['uses' => $controller.'@create']);
+                $router->put('/{id}', ['uses' => $controller.'@update']);
+                $router->delete('/{id}', ['uses' => $controller.'@remove']);
+                $router->get('/{id}', ['uses' => $controller.'@show']);
+
+                $router->post('/{id}/generate', ['uses' => $controller.'@generate']);
+            });
+        }
     }
 }

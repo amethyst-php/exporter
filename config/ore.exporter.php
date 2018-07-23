@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     /*
     |--------------------------------------------------------------------------
     | Table Name
@@ -93,31 +92,23 @@ return [
     |
     */
     'attributes' => [
-
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Http configuration
+    |--------------------------------------------------------------------------
+    |
+    | Here you may configure the routes
+    |
+    */
     'http' => [
-
-        /*
-        |--------------------------------------------------------------------------
-        | Class name controller
-        |--------------------------------------------------------------------------
-        |
-        | Here you may define the controller that will handle all the requests
-        |
-        */
-        'controller' => Railken\LaraOre\Http\Controllers\Admin\ExportersController::class,
-
-        /*
-        |--------------------------------------------------------------------------
-        | Router Options
-        |--------------------------------------------------------------------------
-        |
-        | Here you may define all the options that will be used by the route group
-        |
-        */
-        'router' => [
-            'prefix' => '/admin/exporters',
+        'admin' => [
+            'enabled'    => true,
+            'controller' => Railken\LaraOre\Http\Controllers\Admin\ExportersController::class,
+            'router'     => [
+                'prefix' => '/admin/exporters',
+            ],
         ],
     ],
 ];

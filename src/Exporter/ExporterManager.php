@@ -9,6 +9,7 @@ use Railken\Laravel\Manager\Contracts\AgentContract;
 use Railken\Laravel\Manager\ModelManager;
 use Railken\Laravel\Manager\Result;
 use Railken\Laravel\Manager\Tokens;
+use Illuminate\Support\Collection;
 
 class ExporterManager extends ModelManager
 {
@@ -83,7 +84,9 @@ class ExporterManager extends ModelManager
         $result = new Result();
 
         if (count((array) $exporter->input) !== 0) {
-            $validator = Validator::make($data, (array) $exporter->input);
+            $validator = Validator::make($data, Collection::make($exporter->input)->map(function($field) {
+                return $field->validation;
+            })->toArray());
 
             $errors = collect();
 

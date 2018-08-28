@@ -25,7 +25,7 @@ class ExporterFaker extends BaseFaker
         $bag->set('name', $faker->name);
         $bag->set('repository', RepositoryFaker::make()->parameters()->toArray());
         $bag->set('input', [
-            'name' => 'string',
+            'name' => ['type' => 'text', 'validation' => 'string'],
         ]);
         $bag->set('filename', 'users-{{ "now"|date("Ymd") }}');
         $bag->set('body', [

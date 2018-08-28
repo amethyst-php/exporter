@@ -69,7 +69,11 @@ class GenerateExporter implements ShouldQueue
 
             $query->chunk(100, function ($resources) use ($file, $row, $tm, $repository) {
                 $repository->extract($resources, function ($resource, $data) use ($file, $row, $tm) {
-                    $value = json_decode($tm->renderRaw('text/plain', (string) json_encode($row), $data), true);
+                    
+                    $encoded = $tm->renderRaw('text/plain', (string) json_encode($row), $data);
+                    $encoded = preg_replace('/\t+/', '', $encoded);
+
+                    $value = json_decode($encoded, true);
 
                     if ($value === null) {
                         throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));

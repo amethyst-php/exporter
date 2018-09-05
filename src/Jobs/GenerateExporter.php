@@ -69,7 +69,6 @@ class GenerateExporter implements ShouldQueue
 
             $query->chunk(100, function ($resources) use ($file, $row, $tm, $repository) {
                 $repository->extract($resources, function ($resource, $data) use ($file, $row, $tm) {
-                    
                     $encoded = $tm->renderRaw('text/plain', (string) json_encode($row), $data);
                     $encoded = preg_replace('/\t+/', '', $encoded);
 

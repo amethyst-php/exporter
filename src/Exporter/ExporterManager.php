@@ -2,6 +2,7 @@
 
 namespace Railken\LaraOre\Exporter;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 use Railken\LaraOre\Jobs\GenerateExporter;
@@ -9,7 +10,6 @@ use Railken\Laravel\Manager\Contracts\AgentContract;
 use Railken\Laravel\Manager\ModelManager;
 use Railken\Laravel\Manager\Result;
 use Railken\Laravel\Manager\Tokens;
-use Illuminate\Support\Collection;
 
 class ExporterManager extends ModelManager
 {
@@ -84,7 +84,7 @@ class ExporterManager extends ModelManager
         $result = new Result();
 
         if (count((array) $exporter->input) !== 0) {
-            $validator = Validator::make($data, Collection::make($exporter->input)->map(function($field) {
+            $validator = Validator::make($data, Collection::make($exporter->input)->map(function ($field) {
                 return $field->validation;
             })->toArray());
 

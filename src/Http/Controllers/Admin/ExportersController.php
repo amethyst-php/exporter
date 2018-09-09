@@ -58,7 +58,7 @@ class ExportersController extends RestConfigurableController
      * @param int                      $id
      * @param \Illuminate\Http\Request $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function generate(int $id, Request $request)
     {

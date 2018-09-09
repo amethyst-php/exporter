@@ -3,13 +3,13 @@
 namespace Railken\LaraOre\Tests\Exporter;
 
 use Illuminate\Support\Facades\Config;
+use Railken\LaraOre\Api\Support\Testing\TestableTrait;
 use Railken\LaraOre\Exporter\ExporterFaker;
 use Railken\LaraOre\Exporter\ExporterManager;
-use Railken\LaraOre\Support\Testing\ApiTestableTrait;
 
 class ApiTest extends BaseTest
 {
-    use ApiTestableTrait;
+    use TestableTrait;
 
     /**
      * Retrieve basic url.
@@ -18,7 +18,7 @@ class ApiTest extends BaseTest
      */
     public function getBaseUrl()
     {
-        return Config::get('ore.api.router.prefix').Config::get('ore.exporter.http.admin.router.prefix');
+        return Config::get('ore.api.http.admin.router.prefix').Config::get('ore.exporter.http.admin.router.prefix');
     }
 
     /**

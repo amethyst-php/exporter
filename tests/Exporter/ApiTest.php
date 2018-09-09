@@ -3,31 +3,34 @@
 namespace Railken\LaraOre\Tests\Exporter;
 
 use Illuminate\Support\Facades\Config;
-use Railken\LaraOre\Api\Support\Testing\TestableTrait;
+use Railken\LaraOre\Api\Support\Testing\TestableBaseTrait;
 use Railken\LaraOre\Exporter\ExporterFaker;
 use Railken\LaraOre\Exporter\ExporterManager;
 
 class ApiTest extends BaseTest
 {
-    use TestableTrait;
+    use TestableBaseTrait;
 
     /**
-     * Retrieve basic url.
+     * Faker class.
      *
-     * @return string
+     * @var string
      */
-    public function getBaseUrl()
-    {
-        return Config::get('ore.api.http.admin.router.prefix').Config::get('ore.exporter.http.admin.router.prefix');
-    }
+    protected $faker = ExporterFaker::class;
 
     /**
-     * Test common requests.
+     * Router group resource.
+     *
+     * @var string
      */
-    public function testSuccessCommon()
-    {
-        $this->commonTest($this->getBaseUrl(), ExporterFaker::make()->parameters());
-    }
+    protected $group = 'admin';
+
+    /**
+     * Base path config.
+     *
+     * @var string
+     */
+    protected $config = 'ore.exporter';
 
     public function testGenerate()
     {
@@ -37,7 +40,6 @@ class ApiTest extends BaseTest
         $this->assertEquals(1, $result->ok());
         $resource = $result->getResource();
 
-        $response = $this->post($this->getBaseUrl().'/'.$resource->id.'/generate', ['data' => ['name' => $resource->name]]);
-        $response->assertStatus(200);
+        $response = $this->calLAndTest('POST', $this->getResourceUrl().'/'.$resource->id.'/generate', ['data' => ['name' => $resource->name]], 200);
     }
 }

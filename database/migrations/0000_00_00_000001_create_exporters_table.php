@@ -12,12 +12,12 @@ class CreateExportersTable extends Migration
      */
     public function up()
     {
-        Schema::create(Config::get('ore.exporter.table'), function (Blueprint $table) {
+        Schema::create(Config::get('amethyst.exporter.managers.exporter.table'), function (Blueprint $table) {
             $table->increments('id');
             $table->string('name')->unique();
-            $table->integer('repository_id')->unsigned()->nullable();
-            $table->foreign('repository_id')->references('id')->on(Config::get('ore.repository.table'));
-            $table->text('input')->nullable();
+            $table->text('description')->nullable();
+            $table->integer('data_builder_id')->unsigned()->nullable();
+            $table->foreign('data_builder_id')->references('id')->on(Config::get('amethyst.data-builder.managers.data-builder.table'));
             $table->string('filename');
             $table->text('body');
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateExportersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists(Config::get('ore.exporter.table'));
+        Schema::dropIfExists(Config::get('amethyst.exporter.managers.exporter.table'));
     }
 }

@@ -1,19 +1,19 @@
 <?php
 
-namespace Railken\LaraOre\Jobs;
+namespace Railken\Amethyst\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Railken\LaraOre\Events\ExporterFailed;
-use Railken\LaraOre\Events\ExporterGenerated;
-use Railken\LaraOre\Exceptions\FormattingException;
-use Railken\LaraOre\Exporter\Exporter;
-use Railken\LaraOre\File\FileManager;
-use Railken\LaraOre\Template\TemplateManager;
-use Railken\Laravel\Manager\Contracts\AgentContract;
+use Railken\Amethyst\Events\ExporterFailed;
+use Railken\Amethyst\Events\ExporterGenerated;
+use Railken\Amethyst\Exceptions\FormattingException;
+use Railken\Amethyst\Managers\FileManager;
+use Railken\Amethyst\Models\Exporter;
+use Railken\Lem\Contracts\AgentContract;
+use Railken\Template\Generators;
 
 class GenerateExporter implements ShouldQueue
 {
@@ -26,9 +26,9 @@ class GenerateExporter implements ShouldQueue
     /**
      * Create a new job instance.
      *
-     * @param Exporter                                         $exporter
-     * @param array                                            $data
-     * @param \Railken\Laravel\Manager\Contracts\AgentContract $agent
+     * @param Exporter                             $exporter
+     * @param array                                $data
+     * @param \Railken\Lem\Contracts\AgentContract $agent
      */
     public function __construct(Exporter $exporter, array $data = [], AgentContract $agent = null)
     {
@@ -45,16 +45,14 @@ class GenerateExporter implements ShouldQueue
         $exporter = $this->exporter;
         $data = $this->data;
 
-        $tm = new TemplateManager();
+        $data_builder = $exporter->data_builder;
 
-        $repository = $exporter->repository;
+        $generator = new Generators\TextGenerator();
 
         try {
-            $query = $repository->newInstanceQuery($data);
+            $query = $data_builder->newInstanceQuery($data);
 
-            $filename = tempnam('/tmp', '').'-'.time().'.csv';
-
-            $filename = sys_get_temp_dir().'/'.$tm->renderRaw('text/plain', $exporter->filename, $data).'.csv';
+            $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data).'.csv';
 
             $file = fopen($filename, 'w');
 
@@ -67,9 +65,9 @@ class GenerateExporter implements ShouldQueue
 
             fputcsv($file, $head);
 
-            $query->chunk(100, function ($resources) use ($file, $row, $tm, $repository) {
-                $repository->extract($resources, function ($resource, $data) use ($file, $row, $tm) {
-                    $encoded = $tm->renderRaw('text/plain', (string) json_encode($row), $data);
+            $query->chunk(100, function ($resources) use ($file, $row, $generator, $data_builder) {
+                $data_builder->extract($resources, function ($resource, $data) use ($file, $row, $generator) {
+                    $encoded = $generator->generateAndRender((string) json_encode($row), $data);
                     $encoded = preg_replace('/\t+/', '', $encoded);
 
                     $value = json_decode($encoded, true);

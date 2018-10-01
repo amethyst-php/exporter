@@ -1,11 +1,11 @@
 <?php
 
-namespace Railken\LaraOre\Events;
+namespace Railken\Amethyst\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Railken\LaraOre\Exporter\Exporter;
-use Railken\LaraOre\File\File;
-use Railken\Laravel\Manager\Contracts\AgentContract;
+use Railken\Amethyst\Models\Exporter;
+use Railken\Amethyst\Models\File;
+use Railken\Lem\Contracts\AgentContract;
 
 class ExporterGenerated
 {
@@ -18,9 +18,9 @@ class ExporterGenerated
     /**
      * Create a new event instance.
      *
-     * @param \Railken\LaraOre\Exporter\Exporter               $exporter
-     * @param \Railken\LaraOre\File\File                       $file
-     * @param \Railken\Laravel\Manager\Contracts\AgentContract $agent
+     * @param \Railken\Amethyst\Models\Exporter    $exporter
+     * @param \Railken\Amethyst\Models\File        $file
+     * @param \Railken\Lem\Contracts\AgentContract $agent
      */
     public function __construct(Exporter $exporter, File $file, AgentContract $agent = null)
     {

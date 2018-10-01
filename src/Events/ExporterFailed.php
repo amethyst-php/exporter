@@ -1,11 +1,11 @@
 <?php
 
-namespace Railken\LaraOre\Events;
+namespace Railken\Amethyst\Events;
 
 use Exception;
 use Illuminate\Queue\SerializesModels;
-use Railken\LaraOre\Exporter\Exporter;
-use Railken\Laravel\Manager\Contracts\AgentContract;
+use Railken\Amethyst\Models\Exporter;
+use Railken\Lem\Contracts\AgentContract;
 
 class ExporterFailed
 {
@@ -18,9 +18,9 @@ class ExporterFailed
     /**
      * Create a new event instance.
      *
-     * @param \Railken\LaraOre\Exporter\Exporter               $exporter
-     * @param \Exception                                       $exception
-     * @param \Railken\Laravel\Manager\Contracts\AgentContract $agent
+     * @param \Railken\Amethyst\Models\Exporter    $exporter
+     * @param \Exception                           $exception
+     * @param \Railken\Lem\Contracts\AgentContract $agent
      */
     public function __construct(Exporter $exporter, Exception $exception, AgentContract $agent = null)
     {

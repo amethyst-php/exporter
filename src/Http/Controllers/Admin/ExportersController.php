@@ -1,13 +1,13 @@
 <?php
 
-namespace Railken\LaraOre\Http\Controllers\Admin;
+namespace Railken\Amethyst\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Railken\LaraOre\Api\Http\Controllers\RestConfigurableController;
-use Railken\LaraOre\Api\Http\Controllers\Traits as RestTraits;
+use Railken\Amethyst\Api\Http\Controllers\RestManagerController;
+use Railken\Amethyst\Api\Http\Controllers\Traits as RestTraits;
+use Railken\Amethyst\Managers\ExporterManager;
 
-class ExportersController extends RestConfigurableController
+class ExportersController extends RestManagerController
 {
     use RestTraits\RestIndexTrait;
     use RestTraits\RestShowTrait;
@@ -16,41 +16,11 @@ class ExportersController extends RestConfigurableController
     use RestTraits\RestRemoveTrait;
 
     /**
-     * The config path.
+     * The class of the manager.
      *
      * @var string
      */
-    public $config = 'ore.exporter';
-
-    /**
-     * The attributes that are queryable.
-     *
-     * @var array
-     */
-    public $queryable = [
-        'id',
-        'name',
-        'repository_id',
-        'input',
-        'filename',
-        'body',
-        'created_at',
-        'updated_at',
-    ];
-
-    /**
-     * The attributes that are fillable.
-     *
-     * @var array
-     */
-    public $fillable = [
-        'name',
-        'repository',
-        'repository_id',
-        'input',
-        'filename',
-        'body',
-    ];
+    public $class = ExporterManager::class;
 
     /**
      * Render raw template.
@@ -62,10 +32,10 @@ class ExportersController extends RestConfigurableController
      */
     public function generate(int $id, Request $request)
     {
-        /** @var \Railken\LaraOre\Exporter\ExporterManager */
+        /** @var \Railken\Amethyst\Managers\ExporterManager */
         $manager = $this->manager;
 
-        /** @var \Railken\LaraOre\Exporter\Exporter */
+        /** @var \Railken\Amethyst\Models\Exporter */
         $exporter = $manager->getRepository()->findOneById($id);
 
         if ($exporter == null) {

@@ -1,18 +1,8 @@
-# lara-ore-exporter
+# amethyst-exporter
 
-[![Build Status](https://travis-ci.org/railken/lara-ore-exporter.svg?branch=master)](https://travis-ci.org/railken/lara-ore-exporter)
+[![Build Status](https://travis-ci.org/railken/amethyst-exporter.svg?branch=master)](https://travis-ci.org/railken/amethyst-exporter)
 
-This is a [lara-ore](https://github.com/railken/lara-ore) package.
-
-I've got bored while creating exports: 
-- Bob wants all users given a range of dates (created_at). 
-- John wants the same but only the users that have at least 2 orders.
-- Frank wants all the orders that needed to be shipped between dates
-- Thomas wants all the orders paid between dates
-- Charlie wants all orders that are coming from a specific user, and somehow he wants an export for it
-- David want the same export as Bob but without the updated_at field, it bothers him, apparently
-
-And these are the easy one. So here we are, with a package that works with [lara-ore-repository](https://github.com/railken/lara-ore) and manage exports. Now a super-user can manipulate exporters through apis and i have a clean code.
+[Amethyst](https://github.com/railken/amethyst) package.
 
 # Requirements
 
@@ -23,7 +13,7 @@ PHP 7.1 and later.
 You can install it via [Composer](https://getcomposer.org/) by typing the following command:
 
 ```bash
-composer require railken/lara-ore-exporter
+composer require railken/amethyst-exporter
 ```
 
 The package will automatically register itself.

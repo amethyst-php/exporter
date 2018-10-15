@@ -69,9 +69,9 @@ class GenerateExporter implements ShouldQueue
                 $data_builder->extract($resources, function ($resource, $data) use ($file, $row, $generator) {
                     $encoded = $generator->generateAndRender((string) json_encode($row), $data);
 
-                    $encoded = preg_replace('/\t+/', "\\\\t", $encoded);
-                    $encoded = preg_replace('/\n+/', "\\\\n", $encoded);
-                    $encoded = preg_replace('/\r+/', "\\\\r", $encoded);
+                    $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
+                    $encoded = preg_replace('/\n+/', '\\\\n', $encoded);
+                    $encoded = preg_replace('/\r+/', '\\\\r', $encoded);
 
                     $value = json_decode($encoded, true);
 

@@ -4,8 +4,7 @@ namespace Railken\Amethyst\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Config;
-use Railken\Amethyst\Schemas\ExporterSchema;
+use Railken\Amethyst\Common\ConfigurableModel;
 use Railken\Lem\Contracts\EntityContract;
 
 /**
@@ -17,27 +16,17 @@ use Railken\Lem\Contracts\EntityContract;
  */
 class Exporter extends Model implements EntityContract
 {
-    use SoftDeletes;
+    use SoftDeletes, ConfigurableModel;
 
     /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'body'      => 'object',
-    ];
-
-    /**
-     * Creates a new instance of the model.
+     * Create a new Eloquent model instance.
      *
      * @param array $attributes
      */
     public function __construct(array $attributes = [])
     {
+        $this->ini('amethyst.exporter.data.exporter');
         parent::__construct($attributes);
-        $this->table = Config::get('amethyst.exporter.managers.exporter.table');
-        $this->fillable = (new ExporterSchema())->getNameFillableAttributes();
     }
 
     /**

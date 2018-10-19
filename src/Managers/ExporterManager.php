@@ -3,7 +3,6 @@
 namespace Railken\Amethyst\Managers;
 
 use Railken\Amethyst\Common\ConfigurableManager;
-use Railken\Amethyst\Jobs\GenerateExporter;
 use Railken\Amethyst\Models\Exporter;
 use Railken\Lem\Manager;
 
@@ -32,7 +31,14 @@ class ExporterManager extends Manager
             return $result;
         }
 
-        dispatch(new GenerateExporter($exporter, $data, $this->getAgent()));
+        // We assume this class exists.
+        $className = $exporter->class_name;
+
+        if (!class_exists($className)) {
+            throw new \Exception();
+        }
+
+        dispatch(new $className($exporter, $data, $this->getAgent()));
 
         return $result;
     }

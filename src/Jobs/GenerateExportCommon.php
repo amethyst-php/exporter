@@ -7,20 +7,30 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Railken\Amethyst\Events\ExporterFailed;
-use Railken\Amethyst\Events\ExporterGenerated;
+use Railken\Amethyst\Contracts\GenerateExportContract;
 use Railken\Amethyst\Exceptions\FormattingException;
 use Railken\Amethyst\Managers\FileManager;
 use Railken\Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 use Railken\Template\Generators;
 
-class GenerateExporter implements ShouldQueue
+abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContract
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    /**
+     * @var \Railken\Amethyst\Models\Exporter
+     */
     protected $exporter;
+
+    /**
+     * @var array
+     */
     protected $data;
+
+    /**
+     * @var \Railken\Lem\Contracts\AgentContract|null
+     */
     protected $agent;
 
     /**
@@ -52,21 +62,18 @@ class GenerateExporter implements ShouldQueue
         try {
             $query = $data_builder->newInstanceQuery($data);
 
-            $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data).'.csv';
+            $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data);
 
-            $file = fopen($filename, 'w');
+            $writer = $this->newWriter($filename);
 
-            if (!$file) {
-                throw new \Exception();
-            }
-
-            $head = array_keys((array) $exporter->body);
             $row = array_values((array) $exporter->body);
 
-            fputcsv($file, $head);
+            if ($this->shouldWriteHead()) {
+                $this->write($writer, array_keys((array) $exporter->body));
+            }
 
-            $query->chunk(100, function ($resources) use ($file, $row, $generator, $data_builder) {
-                $data_builder->extract($resources, function ($resource, $data) use ($file, $row, $generator) {
+            $query->chunk(100, function ($resources) use ($writer, $row, $generator, $data_builder) {
+                $data_builder->extract($resources, function ($resource, $data) use ($writer, $row, $generator) {
                     $encoded = $generator->generateAndRender((string) json_encode($row), $data);
 
                     $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
@@ -79,19 +86,19 @@ class GenerateExporter implements ShouldQueue
                         throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));
                     }
 
-                    fputcsv($file, $value);
+                    $this->write($writer, $value);
                 });
             });
         } catch (FormattingException | \PDOException | \Railken\SQ\Exceptions\QuerySyntaxException $e) {
-            return event(new ExporterFailed($exporter, $e, $this->agent));
+            return event(new \Railken\Amethyst\Events\ExporterFailed($exporter, $e, $this->agent));
         } catch (\Twig_Error $e) {
             $e = new \Exception($e->getRawMessage().' on line '.$e->getTemplateLine());
 
-            return event(new ExporterFailed($exporter, $e, $this->agent));
+            return event(new \Railken\Amethyst\Events\ExporterFailed($exporter, $e, $this->agent));
         }
 
         $fm = new FileManager();
-        fclose($file);
+        $this->save($writer);
 
         $result = $fm->create([]);
         $resource = $result->getResource();
@@ -100,10 +107,35 @@ class GenerateExporter implements ShouldQueue
             ->addMedia($filename)
             ->addCustomHeaders([
                 'ContentDisposition' => 'attachment; filename='.basename($filename).'',
-                'ContentType'        => 'text/csv',
+                'ContentType'        => $this->getMimeType(),
             ])
             ->toMediaCollection('exporter');
 
-        event(new ExporterGenerated($exporter, $result->getResource(), $this->agent));
+        event(new \Railken\Amethyst\Events\ExporterGenerated($exporter, $result->getResource(), $this->agent));
+    }
+
+    public function getMimeType()
+    {
+        return 'text/plain';
+    }
+
+    public function newWriter($filename)
+    {
+        return fopen($filename, 'w');
+    }
+
+    public function write($writer, $value)
+    {
+        fwrite($writer, implode(',', $value));
+    }
+
+    public function shouldWriteHead()
+    {
+        return true;
+    }
+
+    public function save($writer)
+    {
+        fclose($writer);
     }
 }

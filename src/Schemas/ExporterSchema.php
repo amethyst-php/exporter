@@ -2,6 +2,7 @@
 
 namespace Railken\Amethyst\Schemas;
 
+use Railken\Amethyst\Contracts\GenerateExportContract;
 use Railken\Amethyst\Managers\DataBuilderManager;
 use Railken\Lem\Attributes;
 use Railken\Lem\Schema;
@@ -23,6 +24,7 @@ class ExporterSchema extends Schema
             Attributes\LongTextAttribute::make('description'),
             Attributes\ObjectAttribute::make('body'),
             Attributes\TextAttribute::make('filename'),
+            Attributes\ClassNameAttribute::make('class_name', [GenerateExportContract::class]),
             Attributes\BelongsToAttribute::make('data_builder_id')
                 ->setRelationName('data_builder')
                 ->setRelationManager(DataBuilderManager::class),

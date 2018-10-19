@@ -13,6 +13,7 @@ use Railken\Lem\Contracts\EntityContract;
  * @property string      $input
  * @property string      $body
  * @property string      $filename
+ * @property string      $class_name
  */
 class Exporter extends Model implements EntityContract
 {

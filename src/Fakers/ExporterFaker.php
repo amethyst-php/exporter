@@ -19,9 +19,10 @@ class ExporterFaker extends Faker
         $bag->set('name', $faker->name);
         $bag->set('description', $faker->text);
         $bag->set('data_builder', DataBuilderFaker::make()->parameters()->toArray());
-        $bag->set('filename', 'users-{{ "now"|date("Ymd") }}');
+        $bag->set('filename', 'exporters-{{ "now"|date("Ymd") }}');
+        $bag->set('class_name', \Railken\Amethyst\Jobs\GenerateExportCsv::class);
         $bag->set('body', [
-            'name' => '{{ resource.name }}',
+            'name' => '{{ record.name }}',
             'flag' => 2,
         ]);
 

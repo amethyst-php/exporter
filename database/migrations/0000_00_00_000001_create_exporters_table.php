@@ -18,6 +18,7 @@ class CreateExportersTable extends Migration
             $table->text('description')->nullable();
             $table->integer('data_builder_id')->unsigned()->nullable();
             $table->foreign('data_builder_id')->references('id')->on(Config::get('amethyst.data-builder.data.data-builder.table'));
+            $table->string('class_name');
             $table->string('filename');
             $table->text('body');
             $table->timestamps();

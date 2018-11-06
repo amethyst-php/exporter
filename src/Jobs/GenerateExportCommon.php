@@ -52,6 +52,26 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
      */
     public function handle()
     {
+        try {
+            $result = $this->generate();
+        } catch (FormattingException | \PDOException | \Railken\SQ\Exceptions\QuerySyntaxException $e) {
+            return event(new \Railken\Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
+        } catch (\Twig_Error $e) {
+            $e = new \Exception($e->getRawMessage().' on line '.$e->getTemplateLine());
+
+            return event(new \Railken\Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
+        }
+
+        event(new \Railken\Amethyst\Events\ExporterGenerated($this->exporter, $result->getResource(), $this->agent));
+    }
+
+    /**
+     * Generate.
+     *
+     * @return \Railken\Lem\Contracts\ResultContract
+     */
+    public function generate()
+    {
         $exporter = $this->exporter;
         $data = $this->data;
 
@@ -59,43 +79,35 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $generator = new Generators\TextGenerator();
 
-        try {
-            $query = $data_builder->newInstanceQuery($data);
+        $query = $data_builder->newInstanceQuery($data);
 
-            $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data);
+        $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data);
 
-            $writer = $this->newWriter($filename);
+        $writer = $this->newWriter($filename);
 
-            $row = array_values((array) $exporter->body);
+        $row = array_values((array) $exporter->body);
 
-            if ($this->shouldWriteHead()) {
-                $this->write($writer, array_keys((array) $exporter->body));
-            }
-
-            $query->chunk(100, function ($resources) use ($writer, $row, $generator, $data_builder) {
-                $data_builder->extract($resources, function ($resource, $data) use ($writer, $row, $generator) {
-                    $encoded = $generator->generateAndRender((string) json_encode($row), $data);
-
-                    $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
-                    $encoded = preg_replace('/\n+/', '\\\\n', $encoded);
-                    $encoded = preg_replace('/\r+/', '\\\\r', $encoded);
-
-                    $value = json_decode($encoded, true);
-
-                    if ($value === null) {
-                        throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));
-                    }
-
-                    $this->write($writer, $value);
-                });
-            });
-        } catch (FormattingException | \PDOException | \Railken\SQ\Exceptions\QuerySyntaxException $e) {
-            return event(new \Railken\Amethyst\Events\ExporterFailed($exporter, $e, $this->agent));
-        } catch (\Twig_Error $e) {
-            $e = new \Exception($e->getRawMessage().' on line '.$e->getTemplateLine());
-
-            return event(new \Railken\Amethyst\Events\ExporterFailed($exporter, $e, $this->agent));
+        if ($this->shouldWriteHead()) {
+            $this->write($writer, array_keys((array) $exporter->body));
         }
+
+        $query->chunk(100, function ($resources) use ($writer, $row, $generator, $data_builder) {
+            $data_builder->extract($resources, function ($resource, $data) use ($writer, $row, $generator) {
+                $encoded = $generator->generateAndRender((string) json_encode($row), $data);
+
+                $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
+                $encoded = preg_replace('/\n+/', '\\\\n', $encoded);
+                $encoded = preg_replace('/\r+/', '\\\\r', $encoded);
+
+                $value = json_decode($encoded, true);
+
+                if ($value === null) {
+                    throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));
+                }
+
+                $this->write($writer, $value);
+            });
+        });
 
         $fm = new FileManager();
         $this->save($writer);
@@ -111,7 +123,7 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
             ])
             ->toMediaCollection('exporter');
 
-        event(new \Railken\Amethyst\Events\ExporterGenerated($exporter, $result->getResource(), $this->agent));
+        return $result;
     }
 
     public function getMimeType()

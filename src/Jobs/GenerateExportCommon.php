@@ -93,15 +93,13 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $query->chunk(100, function ($resources) use ($writer, $row, $generator, $data_builder) {
             $data_builder->extract($resources, function ($resource, $data) use ($writer, $row, $generator) {
-                $encoded = $generator->generateAndRender((string) json_encode($row), $data);
+                $encoded = $generator->generateAndRender((string) json_encode($row), array_merge($this->data, $data));
 
                 $value = json_decode($encoded, true);
 
                 if ($value === null) {
                     throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));
                 }
-
-                $value = array_merge($this->data, $value);
 
                 $this->write($writer, $value);
             });

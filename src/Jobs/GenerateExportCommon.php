@@ -91,9 +91,11 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
             $this->write($writer, array_keys((array) $exporter->body));
         }
 
-        $query->chunk(100, function ($resources) use ($writer, $row, $generator, $data_builder) {
-            $data_builder->extract($resources, function ($resource, $data) use ($writer, $row, $generator) {
-                $encoded = $generator->generateAndRender((string) json_encode($row), array_merge($this->data, $data));
+        $genFile = $generator->generateViewFile((string) json_encode($row));
+
+        $query->chunk(100, function ($resources) use ($writer, $genFile, $generator, $data_builder) {
+            $data_builder->extract($resources, function ($resource, $data) use ($writer, $genFile, $generator) {
+                $encoded = $generator->render($genFile, array_merge($this->data, $data));
 
                 $value = json_decode($encoded, true);
 

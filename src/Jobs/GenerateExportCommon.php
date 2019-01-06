@@ -102,6 +102,10 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
             $data_builder->extract($resources, function ($resource, $data) use ($writer, $genFile, $generator) {
                 $encoded = $generator->render($genFile, array_merge($this->data, $data));
 
+                $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
+                $encoded = preg_replace('/\n+/', '\\\\n', $encoded);
+                $encoded = preg_replace('/\r+/', '\\\\r', $encoded);
+
                 $value = json_decode($encoded, true);
 
                 if ($value === null) {

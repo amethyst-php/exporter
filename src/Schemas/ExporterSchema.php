@@ -22,7 +22,7 @@ class ExporterSchema extends Schema
                 ->setRequired(true)
                 ->setUnique(true),
             Attributes\LongTextAttribute::make('description'),
-            Attributes\ObjectAttribute::make('body'),
+            Attributes\YamlAttribute::make('body'),
             Attributes\TextAttribute::make('filename'),
             Attributes\ClassNameAttribute::make('class_name', [GenerateExportContract::class]),
             Attributes\BelongsToAttribute::make('data_builder_id')

@@ -52,16 +52,13 @@ class ExporterTest extends BaseTest
         // POS
         $resource->class_name = \Railken\Amethyst\Jobs\GenerateExportFixed::class;
         $resource->filename = 'generated.txt';
-        $resource->body = [
-            'name' => [
-                'value'  => '{{ record.name }}',
-                'length' => 255,
-            ],
-            'flag' => [
-                'value'  => 2,
-                'length' => 3,
-            ],
-        ];
+        $resource->body = ''.
+            "name:\n".
+            "  value: '{{ record.name }}'\n".
+            "  length: 255\n".
+            "flag: \n".
+            "  value: 2\n".
+            "  length: 3\n";
         $resource->save();
         $result = $manager->generate($resource, ['name' => $resource->name]);
         $this->assertEquals(true, $result->ok());

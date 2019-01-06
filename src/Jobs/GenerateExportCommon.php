@@ -13,6 +13,7 @@ use Railken\Amethyst\Managers\FileManager;
 use Railken\Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 use Railken\Template\Generators;
+use Symfony\Component\Yaml\Yaml;
 
 abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContract
 {
@@ -85,10 +86,14 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $writer = $this->newWriter($filename);
 
-        $row = array_values((array) $exporter->body);
+        $body = Yaml::parse($exporter->body);
+
+        print_r($body);
+
+        $row = array_values((array) $body);
 
         if ($this->shouldWriteHead()) {
-            $this->write($writer, array_keys((array) $exporter->body));
+            $this->write($writer, array_keys((array) $body));
         }
 
         $genFile = $generator->generateViewFile((string) json_encode($row));
@@ -109,10 +114,8 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $fm = new FileManager();
         $this->save($writer);
-
-        $result = $fm->create([]);
+        $result = $fm->create(['name' => basename($filename), 'path' => $filename]);
         $resource = $result->getResource();
-
         $resource
             ->addMedia($filename)
             ->addCustomHeaders([

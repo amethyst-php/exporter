@@ -40,6 +40,6 @@ class ExporterTest extends BaseTest
         $this->assertEquals(1, $result->ok());
         $resource = $result->getResource();
 
-        $response = $this->calLAndTest('POST', route('admin.exporter.generate', ['id' => $resource->id]), ['data' => ['name' => $resource->name]], 200);
+        $response = $this->callAndTest('POST', route('admin.exporter.generate', ['id' => $resource->id]), ['data' => ['name' => $resource->name]], 200);
     }
 }

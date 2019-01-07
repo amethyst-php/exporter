@@ -88,25 +88,23 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $body = Yaml::parse($exporter->body);
 
-        print_r($body);
-
         $row = array_values((array) $body);
 
         if ($this->shouldWriteHead()) {
             $this->write($writer, array_keys((array) $body));
         }
 
-        $genFile = $generator->generateViewFile((string) json_encode($row));
+        $genFile = $generator->generateViewFile(strval(json_encode($row)));
 
         $query->chunk(100, function ($resources) use ($writer, $genFile, $generator, $data_builder) {
             $data_builder->extract($resources, function ($resource, $data) use ($writer, $genFile, $generator) {
-                $encoded = $generator->render($genFile, array_merge($this->data, $data));
+                $encoded = strval($generator->render($genFile, array_merge($this->data, $data)));
 
-                $encoded = preg_replace('/\t+/', '\\\\t', $encoded);
-                $encoded = preg_replace('/\n+/', '\\\\n', $encoded);
-                $encoded = preg_replace('/\r+/', '\\\\r', $encoded);
+                $encoded = preg_replace('/\t+/', '\\\\t', strval($encoded));
+                $encoded = preg_replace('/\n+/', '\\\\n', strval($encoded));
+                $encoded = preg_replace('/\r+/', '\\\\r', strval($encoded));
 
-                $value = json_decode($encoded, true);
+                $value = json_decode(strval($encoded), true);
 
                 if ($value === null) {
                     throw new FormattingException(sprintf('Error while formatting resource #%s', $resource->id));

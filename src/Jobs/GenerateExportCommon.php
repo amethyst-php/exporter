@@ -116,7 +116,7 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
 
         $fm = new FileManager();
         $this->save($writer);
-        $result = $fm->create(['name' => basename($filename), 'path' => $filename]);
+        $result = $fm->create([]);
         $resource = $result->getResource();
         $resource
             ->addMedia($filename)

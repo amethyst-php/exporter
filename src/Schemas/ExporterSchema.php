@@ -22,12 +22,16 @@ class ExporterSchema extends Schema
                 ->setRequired(true)
                 ->setUnique(true),
             Attributes\LongTextAttribute::make('description'),
-            Attributes\YamlAttribute::make('body'),
-            Attributes\TextAttribute::make('filename'),
-            Attributes\ClassNameAttribute::make('class_name', [GenerateExportContract::class]),
+            Attributes\YamlAttribute::make('body')
+                ->setRequired(true),
+            Attributes\TextAttribute::make('filename')
+                ->setRequired(true),
+            Attributes\ClassNameAttribute::make('class_name', [GenerateExportContract::class])
+                ->setRequired(true),
             Attributes\BelongsToAttribute::make('data_builder_id')
                 ->setRelationName('data_builder')
-                ->setRelationManager(DataBuilderManager::class),
+                ->setRelationManager(DataBuilderManager::class)
+                ->setRequired(true),
             Attributes\CreatedAtAttribute::make(),
             Attributes\UpdatedAtAttribute::make(),
             Attributes\DeletedAtAttribute::make(),

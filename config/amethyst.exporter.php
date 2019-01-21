@@ -35,11 +35,11 @@ return [
     'http' => [
         'admin' => [
             'exporter' => [
-                'enabled'     => true,
-                'controller'  => Railken\Amethyst\Http\Controllers\Admin\ExportersController::class,
-                'router'      => [
-                    'as'        => 'exporter.',
-                    'prefix'    => '/exporters',
+                'enabled'    => true,
+                'controller' => Railken\Amethyst\Http\Controllers\Admin\ExportersController::class,
+                'router'     => [
+                    'as'     => 'exporter.',
+                    'prefix' => '/exporters',
                 ],
             ],
         ],

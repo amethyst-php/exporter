@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Config;
 use Railken\Amethyst\Contracts\GenerateExportContract;
 use Railken\Amethyst\Exceptions\FormattingException;
 use Railken\Amethyst\Managers\FileManager;
@@ -81,6 +82,13 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
         $generator = new Generators\TextGenerator();
 
         $query = $data_builder->newInstanceQuery($data);
+
+        // Overwrite filename if driver is local
+        $diskName = Config::get('medialibrary.disk_name');
+
+        if (Config::get("filesystems.disks.$diskName.driver", 'local') === 'local') {
+            $exporter->filename = bin2hex(random_bytes(32)).'-'.$exporter->filename;
+        }
 
         $filename = sys_get_temp_dir().'/'.$generator->generateAndRender($exporter->filename, $data);
 

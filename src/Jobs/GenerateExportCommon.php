@@ -18,7 +18,10 @@ use Symfony\Component\Yaml\Yaml;
 
 abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContract
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var \Railken\Amethyst\Models\Exporter

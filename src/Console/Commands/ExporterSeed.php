@@ -3,11 +3,10 @@
 namespace Railken\Amethyst\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Arr;
 use Railken\Amethyst\Managers\DataBuilderManager;
 use Railken\Amethyst\Managers\ExporterManager;
 use Symfony\Component\Yaml\Yaml;
-use Railken\Amethyst\DataBuilders\CommonDataBuilder;
-use Illuminate\Support\Arr;
 
 class ExporterSeed extends Command
 {
@@ -33,15 +32,14 @@ class ExporterSeed extends Command
         });
 
         foreach ($managers as $classManager) {
-
             $dataBuilderRecord = $dataBuilderManager->getRepository()->findOneBy([
-                'name'        => (new $classManager())->getName().' by dates',
+                'name' => (new $classManager())->getName().' by dates',
             ]);
 
             $dataBuilder = $dataBuilderRecord->newInstanceData();
 
             $exporterManager->updateOrCreateOrFail([
-                'name'            => (new $classManager())->getName().' by dates',
+                'name' => (new $classManager())->getName().' by dates',
             ], [
                 'data_builder_id' => $dataBuilderRecord->id,
                 'filename'        => (new $classManager())->getName().'.xlsx',

@@ -26,10 +26,10 @@ return [
                     'options' => [
                         Railken\Amethyst\Jobs\GenerateExportCsv::class,
                         Railken\Amethyst\Jobs\GenerateExportFixed::class,
-                        Railken\Amethyst\Jobs\GenerateExportXls::class
-                    ]
-                ]
-            ]
+                        Railken\Amethyst\Jobs\GenerateExportXls::class,
+                    ],
+                ],
+            ],
         ],
     ],
 

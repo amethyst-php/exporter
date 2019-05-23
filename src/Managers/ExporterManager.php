@@ -53,7 +53,7 @@ class ExporterManager extends Manager
         return [
             'actions' => [
                 'executor',
-            ]
+            ],
         ];
     }
 }

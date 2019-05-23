@@ -23,7 +23,7 @@ class ExportersController extends RestManagerController
     public $class = ExporterManager::class;
 
     /**
-     * Execute
+     * Execute.
      *
      * @param int                      $id
      * @param \Illuminate\Http\Request $request

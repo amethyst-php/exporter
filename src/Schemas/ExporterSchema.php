@@ -3,7 +3,6 @@
 namespace Railken\Amethyst\Schemas;
 
 use Illuminate\Support\Facades\Config;
-use Railken\Amethyst\Contracts\GenerateExportContract;
 use Railken\Amethyst\Managers\DataBuilderManager;
 use Railken\Lem\Attributes;
 use Railken\Lem\Schema;

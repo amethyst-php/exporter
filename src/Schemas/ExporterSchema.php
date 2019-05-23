@@ -2,6 +2,7 @@
 
 namespace Railken\Amethyst\Schemas;
 
+use Illuminate\Support\Facades\Config;
 use Railken\Amethyst\Contracts\GenerateExportContract;
 use Railken\Amethyst\Managers\DataBuilderManager;
 use Railken\Lem\Attributes;
@@ -26,7 +27,7 @@ class ExporterSchema extends Schema
                 ->setRequired(true),
             Attributes\TextAttribute::make('filename')
                 ->setRequired(true),
-            Attributes\ClassNameAttribute::make('class_name', [GenerateExportContract::class])
+            Attributes\EnumAttribute::make('class_name', Config::get('amethyst.exporter.data.exporter.attributes.class_name.options'))
                 ->setRequired(true),
             Attributes\BelongsToAttribute::make('data_builder_id')
                 ->setRelationName('data_builder')

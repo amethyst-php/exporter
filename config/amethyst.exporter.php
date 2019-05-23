@@ -21,6 +21,15 @@ return [
             'authorizer' => Railken\Amethyst\Authorizers\ExporterAuthorizer::class,
             'faker'      => Railken\Amethyst\Fakers\ExporterFaker::class,
             'manager'    => Railken\Amethyst\Managers\ExporterManager::class,
+            'attributes' => [
+                'class_name' => [
+                    'options' => [
+                        Railken\Amethyst\Jobs\GenerateExportCsv::class,
+                        Railken\Amethyst\Jobs\GenerateExportFixed::class,
+                        Railken\Amethyst\Jobs\GenerateExportXls::class
+                    ]
+                ]
+            ]
         ],
     ],
 

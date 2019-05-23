@@ -6,6 +6,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Railken\Amethyst\Api\Support\Router;
 use Railken\Amethyst\Common\CommonServiceProvider;
+use Railken\Amethyst\Console\Commands\ExporterSeed;
 
 class ExporterServiceProvider extends CommonServiceProvider
 {
@@ -15,6 +16,7 @@ class ExporterServiceProvider extends CommonServiceProvider
     public function boot()
     {
         parent::boot();
+        $this->commands([ExporterSeed::class]);
         $this->loadExtraRoutes();
     }
 

@@ -39,7 +39,7 @@ class ExporterServiceProvider extends CommonServiceProvider
             Router::group('admin', Arr::get($config, 'router'), function ($router) use ($config) {
                 $controller = Arr::get($config, 'controller');
 
-                $router->post('/{id}/generate', ['as' => 'generate', 'uses' => $controller.'@generate']);
+                $router->post('/{id}/execute', ['as' => 'execute', 'uses' => $controller.'@execute']);
             });
         }
     }

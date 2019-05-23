@@ -23,14 +23,14 @@ class ExportersController extends RestManagerController
     public $class = ExporterManager::class;
 
     /**
-     * Render raw template.
+     * Execute
      *
      * @param int                      $id
      * @param \Illuminate\Http\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function generate(int $id, Request $request)
+    public function execute(int $id, Request $request)
     {
         /** @var \Railken\Amethyst\Managers\ExporterManager */
         $manager = $this->manager;

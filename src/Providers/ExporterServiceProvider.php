@@ -1,12 +1,12 @@
 <?php
 
-namespace Railken\Amethyst\Providers;
+namespace Amethyst\Providers;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
-use Railken\Amethyst\Api\Support\Router;
-use Railken\Amethyst\Common\CommonServiceProvider;
-use Railken\Amethyst\Console\Commands\ExporterSeed;
+use Amethyst\Api\Support\Router;
+use Amethyst\Common\CommonServiceProvider;
+use Amethyst\Console\Commands\ExporterSeed;
 
 class ExporterServiceProvider extends CommonServiceProvider
 {
@@ -26,8 +26,8 @@ class ExporterServiceProvider extends CommonServiceProvider
     public function register()
     {
         parent::register();
-        $this->app->register(\Railken\Amethyst\Providers\DataBuilderServiceProvider::class);
-        $this->app->register(\Railken\Amethyst\Providers\FileServiceProvider::class);
+        $this->app->register(\Amethyst\Providers\DataBuilderServiceProvider::class);
+        $this->app->register(\Amethyst\Providers\FileServiceProvider::class);
     }
 
     /**

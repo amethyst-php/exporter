@@ -1,6 +1,6 @@
 <?php
 
-namespace Railken\Amethyst\Fakers;
+namespace Amethyst\Fakers;
 
 use Faker\Factory;
 use Railken\Bag;
@@ -21,7 +21,7 @@ class ExporterFaker extends Faker
         $bag->set('description', $faker->text);
         $bag->set('data_builder', DataBuilderFaker::make()->parameters()->toArray());
         $bag->set('filename', 'exporters-{{ "now"|date("Ymd") }}');
-        $bag->set('class_name', \Railken\Amethyst\Jobs\GenerateExportCsv::class);
+        $bag->set('class_name', \Amethyst\Jobs\GenerateExportCsv::class);
         $bag->set('body', Yaml::dump([
             'name' => '{{ record.name }}',
             'flag' => 2,

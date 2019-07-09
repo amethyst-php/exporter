@@ -1,9 +1,9 @@
 <?php
 
-namespace Railken\Amethyst\Managers;
+namespace Amethyst\Managers;
 
-use Railken\Amethyst\Common\ConfigurableManager;
-use Railken\Amethyst\Models\Exporter;
+use Amethyst\Common\ConfigurableManager;
+use Amethyst\Models\Exporter;
 use Railken\Lem\Manager;
 
 class ExporterManager extends Manager

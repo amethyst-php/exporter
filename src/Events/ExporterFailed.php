@@ -1,10 +1,10 @@
 <?php
 
-namespace Railken\Amethyst\Events;
+namespace Amethyst\Events;
 
 use Exception;
 use Illuminate\Queue\SerializesModels;
-use Railken\Amethyst\Models\Exporter;
+use Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 
 class ExporterFailed
@@ -18,7 +18,7 @@ class ExporterFailed
     /**
      * Create a new event instance.
      *
-     * @param \Railken\Amethyst\Models\Exporter    $exporter
+     * @param \Amethyst\Models\Exporter    $exporter
      * @param \Exception                           $exception
      * @param \Railken\Lem\Contracts\AgentContract $agent
      */

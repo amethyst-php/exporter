@@ -1,11 +1,11 @@
 <?php
 
-namespace Railken\Amethyst\Http\Controllers\Admin;
+namespace Amethyst\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Railken\Amethyst\Api\Http\Controllers\RestManagerController;
-use Railken\Amethyst\Api\Http\Controllers\Traits as RestTraits;
-use Railken\Amethyst\Managers\ExporterManager;
+use Amethyst\Api\Http\Controllers\RestManagerController;
+use Amethyst\Api\Http\Controllers\Traits as RestTraits;
+use Amethyst\Managers\ExporterManager;
 
 class ExportersController extends RestManagerController
 {
@@ -32,10 +32,10 @@ class ExportersController extends RestManagerController
      */
     public function execute(int $id, Request $request)
     {
-        /** @var \Railken\Amethyst\Managers\ExporterManager */
+        /** @var \Amethyst\Managers\ExporterManager */
         $manager = $this->manager;
 
-        /** @var \Railken\Amethyst\Models\Exporter */
+        /** @var \Amethyst\Models\Exporter */
         $exporter = $manager->getRepository()->findOneById($id);
 
         if ($exporter == null) {

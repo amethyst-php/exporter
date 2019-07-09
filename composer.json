@@ -1,12 +1,12 @@
 {
-    "name": "railken/amethyst-exporter",
+    "name": "amethyst/exporter",
     "keywords": ["laravel", "amethyst", "amethyst-exporter", "exporter"],
     "license": "MIT",
     "require": {
         "php": ">=7.1",
-        "railken/amethyst-common": "0.1.*",
-        "railken/amethyst-data-builder": "0.1.*",
-        "railken/amethyst-file": "0.1.*",
+        "amethyst/common": "0.1.*",
+        "amethyst/data-builder": "0.1.*",
+        "amethyst/file": "0.1.*",
         "railken/template": "1.0.*",
         "box/spout": "^2.7"
     },
@@ -16,18 +16,18 @@
     },
     "autoload": {
         "psr-4" : {
-            "Railken\\Amethyst\\" : "src/"
+            "Amethyst\\" : "src/"
         }
     },
     "autoload-dev": {
         "psr-4": { 
-            "Railken\\Amethyst\\Tests\\": "tests/" 
+            "Amethyst\\Tests\\": "tests/" 
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Railken\\Amethyst\\Providers\\ExporterServiceProvider"
+                "Amethyst\\Providers\\ExporterServiceProvider"
             ]
         }
     }

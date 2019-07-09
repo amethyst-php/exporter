@@ -13,20 +13,20 @@ return [
         'exporter' => [
             'table'      => 'amethyst_exporters',
             'comment'    => 'Exporter',
-            'model'      => Railken\Amethyst\Models\Exporter::class,
-            'schema'     => Railken\Amethyst\Schemas\ExporterSchema::class,
-            'repository' => Railken\Amethyst\Repositories\ExporterRepository::class,
-            'serializer' => Railken\Amethyst\Serializers\ExporterSerializer::class,
-            'validator'  => Railken\Amethyst\Validators\ExporterValidator::class,
-            'authorizer' => Railken\Amethyst\Authorizers\ExporterAuthorizer::class,
-            'faker'      => Railken\Amethyst\Fakers\ExporterFaker::class,
-            'manager'    => Railken\Amethyst\Managers\ExporterManager::class,
+            'model'      => Amethyst\Models\Exporter::class,
+            'schema'     => Amethyst\Schemas\ExporterSchema::class,
+            'repository' => Amethyst\Repositories\ExporterRepository::class,
+            'serializer' => Amethyst\Serializers\ExporterSerializer::class,
+            'validator'  => Amethyst\Validators\ExporterValidator::class,
+            'authorizer' => Amethyst\Authorizers\ExporterAuthorizer::class,
+            'faker'      => Amethyst\Fakers\ExporterFaker::class,
+            'manager'    => Amethyst\Managers\ExporterManager::class,
             'attributes' => [
                 'class_name' => [
                     'options' => [
-                        Railken\Amethyst\Jobs\GenerateExportCsv::class,
-                        Railken\Amethyst\Jobs\GenerateExportFixed::class,
-                        Railken\Amethyst\Jobs\GenerateExportXls::class,
+                        Amethyst\Jobs\GenerateExportCsv::class,
+                        Amethyst\Jobs\GenerateExportFixed::class,
+                        Amethyst\Jobs\GenerateExportXls::class,
                     ],
                 ],
             ],
@@ -45,7 +45,7 @@ return [
         'admin' => [
             'exporter' => [
                 'enabled'    => true,
-                'controller' => Railken\Amethyst\Http\Controllers\Admin\ExportersController::class,
+                'controller' => Amethyst\Http\Controllers\Admin\ExportersController::class,
                 'router'     => [
                     'as'     => 'exporter.',
                     'prefix' => '/exporters',

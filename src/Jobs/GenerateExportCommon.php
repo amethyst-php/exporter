@@ -1,6 +1,6 @@
 <?php
 
-namespace Railken\Amethyst\Jobs;
+namespace Amethyst\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -8,10 +8,10 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
-use Railken\Amethyst\Contracts\GenerateExportContract;
-use Railken\Amethyst\Exceptions\FormattingException;
-use Railken\Amethyst\Managers\FileManager;
-use Railken\Amethyst\Models\Exporter;
+use Amethyst\Contracts\GenerateExportContract;
+use Amethyst\Exceptions\FormattingException;
+use Amethyst\Managers\FileManager;
+use Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 use Railken\Template\Generators;
 use Symfony\Component\Yaml\Yaml;
@@ -24,7 +24,7 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
     use SerializesModels;
 
     /**
-     * @var \Railken\Amethyst\Models\Exporter
+     * @var \Amethyst\Models\Exporter
      */
     protected $exporter;
 
@@ -60,14 +60,14 @@ abstract class GenerateExportCommon implements ShouldQueue, GenerateExportContra
         try {
             $result = $this->generate();
         } catch (FormattingException | \PDOException | \Railken\SQ\Exceptions\QuerySyntaxException $e) {
-            return event(new \Railken\Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
+            return event(new \Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
         } catch (\Twig_Error $e) {
             $e = new \Exception($e->getRawMessage().' on line '.$e->getTemplateLine());
 
-            return event(new \Railken\Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
+            return event(new \Amethyst\Events\ExporterFailed($this->exporter, $e, $this->agent));
         }
 
-        event(new \Railken\Amethyst\Events\ExporterGenerated($this->exporter, $result->getResource(), $this->agent));
+        event(new \Amethyst\Events\ExporterGenerated($this->exporter, $result->getResource(), $this->agent));
     }
 
     /**

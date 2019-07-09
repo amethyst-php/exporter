@@ -1,10 +1,10 @@
 <?php
 
-namespace Railken\Amethyst\Tests\Managers;
+namespace Amethyst\Tests\Managers;
 
-use Railken\Amethyst\Fakers\ExporterFaker;
-use Railken\Amethyst\Managers\ExporterManager;
-use Railken\Amethyst\Tests\BaseTest;
+use Amethyst\Fakers\ExporterFaker;
+use Amethyst\Managers\ExporterManager;
+use Amethyst\Tests\BaseTest;
 use Railken\Lem\Support\Testing\TestableBaseTrait;
 use Symfony\Component\Yaml\Yaml;
 
@@ -37,21 +37,21 @@ class ExporterTest extends BaseTest
 
         // CSV
         $resource = $result->getResource();
-        $resource->class_name = \Railken\Amethyst\Jobs\GenerateExportCsv::class;
+        $resource->class_name = \Amethyst\Jobs\GenerateExportCsv::class;
         $resource->filename = 'generated.csv';
         $resource->save();
         $result = $manager->generate($resource, ['name' => $resource->name]);
         $this->assertEquals(true, $result->ok());
 
         // Excel
-        $resource->class_name = \Railken\Amethyst\Jobs\GenerateExportXls::class;
+        $resource->class_name = \Amethyst\Jobs\GenerateExportXls::class;
         $resource->filename = 'generated.xls';
         $resource->save();
         $result = $manager->generate($resource, ['name' => $resource->name]);
         $this->assertEquals(true, $result->ok());
 
         // POS
-        $resource->class_name = \Railken\Amethyst\Jobs\GenerateExportFixed::class;
+        $resource->class_name = \Amethyst\Jobs\GenerateExportFixed::class;
         $resource->filename = 'generated.txt';
         $resource->body = Yaml::dump([
             'name' => [

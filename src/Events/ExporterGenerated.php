@@ -1,10 +1,10 @@
 <?php
 
-namespace Railken\Amethyst\Events;
+namespace Amethyst\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Railken\Amethyst\Models\Exporter;
-use Railken\Amethyst\Models\File;
+use Amethyst\Models\Exporter;
+use Amethyst\Models\File;
 use Railken\Lem\Contracts\AgentContract;
 
 class ExporterGenerated
@@ -18,8 +18,8 @@ class ExporterGenerated
     /**
      * Create a new event instance.
      *
-     * @param \Railken\Amethyst\Models\Exporter    $exporter
-     * @param \Railken\Amethyst\Models\File        $file
+     * @param \Amethyst\Models\Exporter    $exporter
+     * @param \Amethyst\Models\File        $file
      * @param \Railken\Lem\Contracts\AgentContract $agent
      */
     public function __construct(Exporter $exporter, File $file, AgentContract $agent = null)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Railken\Amethyst\Jobs;
+namespace Amethyst\Jobs;
 
 class GenerateExportFixed extends GenerateExportCommon
 {

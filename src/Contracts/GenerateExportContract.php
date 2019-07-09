@@ -1,8 +1,8 @@
 <?php
 
-namespace Railken\Amethyst\Contracts;
+namespace Amethyst\Contracts;
 
-use Railken\Amethyst\Models\Exporter;
+use Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 
 interface GenerateExportContract

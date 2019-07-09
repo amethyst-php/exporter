@@ -1,11 +1,11 @@
 <?php
 
-namespace Railken\Amethyst\Tests\Http\Admin;
+namespace Amethyst\Tests\Http\Admin;
 
-use Railken\Amethyst\Api\Support\Testing\TestableBaseTrait;
-use Railken\Amethyst\Fakers\ExporterFaker;
-use Railken\Amethyst\Managers\ExporterManager;
-use Railken\Amethyst\Tests\BaseTest;
+use Amethyst\Api\Support\Testing\TestableBaseTrait;
+use Amethyst\Fakers\ExporterFaker;
+use Amethyst\Managers\ExporterManager;
+use Amethyst\Tests\BaseTest;
 
 class ExporterTest extends BaseTest
 {

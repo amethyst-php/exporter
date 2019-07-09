@@ -1,11 +1,11 @@
 <?php
 
-namespace Railken\Amethyst\Console\Commands;
+namespace Amethyst\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
-use Railken\Amethyst\Managers\DataBuilderManager;
-use Railken\Amethyst\Managers\ExporterManager;
+use Amethyst\Managers\DataBuilderManager;
+use Amethyst\Managers\ExporterManager;
 use Symfony\Component\Yaml\Yaml;
 
 class ExporterSeed extends Command
@@ -43,7 +43,7 @@ class ExporterSeed extends Command
             ], [
                 'data_builder_id' => $dataBuilderRecord->id,
                 'filename'        => (new $classManager())->getName().'.xlsx',
-                'class_name'      => \Railken\Amethyst\Jobs\GenerateExportXls::class,
+                'class_name'      => \Amethyst\Jobs\GenerateExportXls::class,
                 'body'            => Yaml::dump($dataBuilder->getManager()->getAttributes()->mapWithKeys(function ($attribute) use ($dataBuilder) {
                     return [$attribute->getName() => '{{ '.$dataBuilder->getVariableName().'.'.$attribute->getName().' }}'];
                 })->toArray()),

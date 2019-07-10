@@ -2,16 +2,16 @@
 
 namespace Amethyst\Jobs;
 
+use Amethyst\Contracts\GenerateExportContract;
+use Amethyst\Exceptions\FormattingException;
+use Amethyst\Managers\FileManager;
+use Amethyst\Models\Exporter;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Config;
-use Amethyst\Contracts\GenerateExportContract;
-use Amethyst\Exceptions\FormattingException;
-use Amethyst\Managers\FileManager;
-use Amethyst\Models\Exporter;
 use Railken\Lem\Contracts\AgentContract;
 use Railken\Template\Generators;
 use Symfony\Component\Yaml\Yaml;

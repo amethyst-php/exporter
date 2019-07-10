@@ -2,11 +2,11 @@
 
 namespace Amethyst\Providers;
 
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Config;
 use Amethyst\Api\Support\Router;
 use Amethyst\Common\CommonServiceProvider;
 use Amethyst\Console\Commands\ExporterSeed;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Config;
 
 class ExporterServiceProvider extends CommonServiceProvider
 {

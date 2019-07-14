@@ -6,6 +6,14 @@ use Amethyst\Common\ConfigurableManager;
 use Amethyst\Models\Exporter;
 use Railken\Lem\Manager;
 
+/**
+ * @method \Amethyst\Models\Exporter newEntity()
+ * @method \Amethyst\Schemas\ExporterSchema getSchema()
+ * @method \Amethyst\Repositories\ExporterRepository getRepository()
+ * @method \Amethyst\Serializers\ExporterSerializer getSerializer()
+ * @method \Amethyst\Validators\ExporterValidator getValidator()
+ * @method \Amethyst\Authorizers\ExporterAuthorizer getAuthorizer()
+ */
 class ExporterManager extends Manager
 {
     use ConfigurableManager;
